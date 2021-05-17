@@ -90,17 +90,9 @@ bin
  
  
 git操作-删除文件
-日期:2012-05-20 来源: bg090721 分享至:
- 
-
-git删除文件
-
 rm add2.txt
-
 git rm add2.txt
-
 git commit -m "rm test"
-
 git push web
 
  
