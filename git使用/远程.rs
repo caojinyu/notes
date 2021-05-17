@@ -12,6 +12,10 @@ git push —-set-upstream origin ask
 新员工拉取分支到本地：
 git pull origin ask:ask
 
+查看分支：
+git branch  	查看本地的分支
+git branch -a    查看所有的分支
+git branch -r 	查看远程的分支
 
 远程分支的合并和删除：
 现在master里面
