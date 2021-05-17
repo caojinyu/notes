@@ -1,0 +1,46 @@
+fn haha(n: NonNull<Nihao>) {
+    // n: 是一个Box的指针
+    unsafe { ManuallyDrop::new(Box::from_raw(n.as_ptr())) } // 这里不会发生drop。
+}
+
+ManuallyDrop就是手动调用一个T类型的drop函数.
+
+
+Drop:
+
+PhantomData.
+
+对于:
+struct Nihao<T> {
+	ptr: NonNull<()>,
+	_marker: PhantomData<T>
+}
+上面表示的是对T的所有权的拥有,但是记住仅此而已,编译器不会做更多的检查的.
+比如:
+let a = Women {name: String::from("hades")};
+let n = Nihao { ptr: NonNull::new(&a as *const Women as *mut Women as *mut ()), _marker: PhantomData };
+虽然说n已经拥有了a的所有权,但是a依然会调用它自己的drop.
+所以在我们为Nihao实现Drop Women这个类型的时候,就会造成两次Drop.
+
+fn main() {
+    nihao();
+    std::thread::sleep(std::time::Duration::from_secs(10));
+    println!("wake");
+}
+fn nihao() -> Nihao {
+    Nihao {
+        age: "hades".to_string(),
+    }
+}
+struct Nihao {
+    age: String,
+}
+impl Drop for Nihao {
+    fn drop(&mut self) {
+        println!("nihao drop: {}", self.age);
+    }
+}
+
+nihao()函数的调用返回的是一个Nihao类型,但是没有变量绑定这个返回的类型,那么返回的这个类型立刻调用drop().
+如果是let _=nihao();也是让返回的类型立刻drop.
+

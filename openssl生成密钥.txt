@@ -1,0 +1,14 @@
+1.生成私钥
+
+-- 生成 RSA 私钥（传统格式的）
+
+openssl genrsa -out rsa_private_key.pem 1024
+
+-- 将传统格式的私钥转换成 PKCS#8 格式的（JAVA需要使用的私钥需要经过PKCS#8编码，PHP程序不需要，可以直接略过）
+
+openssl pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt
+2.生成公钥
+
+-- 生成 RSA 公钥(php和java都用转换前私钥生成公钥)
+
+openssl rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem

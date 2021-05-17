@@ -1,0 +1,3 @@
+pin: 就是不能safe代码中获取盗&mut T，只能&T。
+unpin：就是能在safe代码中获取到&mut T
+

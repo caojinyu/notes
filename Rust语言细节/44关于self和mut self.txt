@@ -1,0 +1,17 @@
+struct Move {
+        name: String,
+    }
+
+    impl Move {
+        fn change(mut self) -> String {
+            self.name
+        }
+    }
+    
+    fn hah(x: Move) {
+        println!("{}", x.change());
+    }
+
+在我们需要修改的时候，impl的self前面需要添加mut slef。
+如果我们调用是mut self的方法的时候，因为是移动了所有权，
+调用的时候，编译器会自动添加mut。

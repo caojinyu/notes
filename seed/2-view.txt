@@ -1,0 +1,29 @@
+view发生调用的时机：
+seed的view的执行时机：
+    * 发生操作-例如，用户单击按钮。
+    * seed调用您的update函数。
+    * seed时间表重新显示。
+    * 浏览器会通知Seed现在是进行渲染的正确时间（请参见requestAnimationFrame）。
+    * seed调用您的view函数。
+    * seed重新渲染该应用程序。
+* 该init函数之后也会调用它来首次呈现应用程序。
+
+1：点击Href链接的时候就会调用view。
+2:点击按钮的时候也会自动调用view。
+3:调用update函数的时候也会调用view。
+4: 当我们用orders.subscribe()一个消息的时候，这个我们按下一个按钮
+    或者点击一个Href的时候，首先调用update，去处理对应的Msg， 然后再
+    调用view函数。
+5:对于多个page的情况是：update  init   view 都是手动调用的。
+    那么怎么和root的Msg进行交互主动的去调用他们呢？
+    使用orders.proxy()进行消息的转换。
+    流程是：
+    （1）点击Href链接，  网页的url改变， 
+    （2）调用root的update，在这里调用相应的page的init，生成相应的Model，
+    （3）view此时也会重新渲染， 然后在view中进行主动调用相应page的view。这里要把相应
+        page的view函数返回的Msg类型转换成root的Msg类型，用view().map_msg().
+    （4）如果（3）步骤中，有子page返回了自己的Msg，那么root的update函数调用，处理消息，
+        主动的调用子page的update函数，这个时候，我们已经知道了子page的model和msg类型，调用
+        子page的update函数的时候，orders这里要传递orders.proxy(RootMsg)方便下次的消息转换。
+    （5）proxy就好像是一个桥梁，子page的order参数全部传递的都是proxy代理。子page的消息发送后，proxy先
+        获得到，然后再调用root的update， root的update再调用子page的update，完成消息处理流程。

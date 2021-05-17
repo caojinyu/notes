@@ -1,0 +1,30 @@
+我们都知道，Future里面有poll函数，但是我们在写代码中，遇到好多时候
+是a.poll(cx)调用，好多时候又是await调用。他们之间到底是什么关系呢。
+
+比如Nihao这个类型实现了Future。
+当然我们可以使用Nihao.poll(cx)进行调用，也可以使用Nihao.await，
+但是你发现了没有，await的方法的cx参数没有了， 这时什么情况呢？
+
+那是因为await一般出现在async {something.await}中，也就是说await
+必须在一个Future中。例如： let a = async { something.await };
+
+#[lang = "future_trait"]
+pub trait Future
+
+// 下面的这句话很重要的。
+我们如果使用a.await的话，也得用async进行包裹成Future。所以这里我们
+只能使用a.poll(cx)进行调用了，遇到something.await的时候，意思是说
+必须等待这里完成，这里编译器是这样处理的something.poll(cx), 把a那里的
+cx传递了过来，因为async包裹的代码通过编译器自动处理成了一个generator，
+遇到await的时候，把Pending状态当做了这个generator的状态Yield了，停止了
+在这里。
+
+遇到再次a.poll(cx)的时候，内部的generator通过resume，从something.await这里
+开始执行，something.poll(cx), 再次调用something这个generator的resume从短点
+处开始执行，如果返回了Ready，那么就开始执行下面的代码。
+
+无论是async{}的形式也好，还是通过impl Future for type的形式也好，编译器内部都会
+形成一个generator， 因为Future这个闭包是编译器照顾的类型。
+#[lang = "future_trait"]
+pub trait Future
+

@@ -1,0 +1,21 @@
+字体系列，大小，粗细，文字样式。
+
+1:字体：一般定义在body标签中。
+	font-family: "微软雅黑", Monoca;
+	如果字体有空格的话，要加引号，否则可以不用添加引号.多个字体用逗号
+	分开。
+2:字体大小：
+	font-size: 20px;
+	尽量给一个明确的值。
+	body { font_size: 20px; }不会更改h标题标签的文字大小。
+	标题标签比较特殊，要单独给予文字的大小。
+3:字体的粗细：
+	font-weight: normal|bold|bolder|lighter|number;
+	none可以取消标签a的默认下划线。
+4: 字体样式：
+	font-style: italic | normal;
+	意义在于让倾斜的字体不倾斜：比如em标签。
+
+字体属性组合：
+	font：font-style|font-weight|font-size/line-height|font-family;
+	font-size和font-family必须存在。

@@ -1,0 +1,35 @@
+tsc xxx.ts -w;
+表示监视这个文件的改变，会自动的编译成js的。
+
+直接输入tsc，那么会寻找tsconfig.json配置文件。
+
+
+tsconfig.json配置文件的格式：
+默认可以为{}.
+tsc -w, 会递归的寻找目录编译。
+
+{
+	// 指定哪些ts文件需要被编译。**表示任意目录， *表示任意文件
+	"include": ["./src/**/*"]
+	"exclude" : [],
+	"complilerOptions": {
+		"target": "es6",
+		"module": "es6",
+		//"lib": [] 一般不需要动,
+		"outDir": "./dist", // 编译后的目录
+		"outFile": "./dist/app.js", // 编译成一个单个js文件， module必须是amd和system。
+		"allowJs":true, // 是否编译js文件
+		"checkJs": true, // 是否检查js文件的语法。
+		“removeComments": false, //是否移除注释
+		"noEmit": false, // 是否生成编译后的文件,
+		"noEmitOnError": true, // 当有错误的时候，不生成编译后的文件
+		
+		"alwaysStrict": true, // 严格模式
+		"noImplicitAny": true, //不要让默认的是any类型。
+		"noImplicitReturns": true,
+    	"noImplicitThis": true,  // 不允许不明确类型的this
+    	"noImplicitUseStrict": true,
+    	"strictNullChecks": true,
+    	"strict": true, // 所有严格检查的总开关
+	}
+}

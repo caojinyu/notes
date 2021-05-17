@@ -1,0 +1,21 @@
+建立了一个虚拟表。
+create view v_tearch as select id, t_name from info_tearch;
+
+视图针对的主要操作是查询操作！！！！
+
+视图本身没有数据，只是通过执行相应的select语句。上面的语句相当于执行了：
+select * from (selct id, t_name from info_tearch) as tmp;
+
+视图就是保存了一条查询的select语句而已。
+ 
+
+删除视图：
+drop view if exists view_name;
+
+修改视图：
+alter view v_name （v1, v2） as select ....;
+
+视图减少业务逻辑的复杂度。
+视图完成的逻辑都是基础的逻辑。
+
+

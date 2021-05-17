@@ -1,0 +1,14 @@
+每次我们点击一个href的链接的时候，其实seed都会要调用init函数，
+获取到当前的路由，然后保存到model中，或者其他的地方。所以操作路由
+的功能代码要写在init函数中。
+
+
+http://localhost:8080/#/active/completed
+上面的href，remaining_hash_path_parts（）函数返回的是
+["active", "completed"],
+
+路由的变化要在init函数中，通过订阅的方法实现。
+
+orders.subscribe(|subs::UrlChanged(url)| {})
+
+

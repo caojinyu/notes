@@ -1,0 +1,24 @@
+通过css背景属性可以给页面元素添加背景样式。
+背景属性可以是设置背景颜色、背景图片、背景平铺、背景图片位置、背景图像固定。
+
+background-color: #ffffff | transparent;
+background-image: none|url("./conment.jpg"); 开发中常见的logo。
+background-repeat: repeat | no-repeat | repeat-x | repeat-y;
+
+背景图片的位置：
+	background-position: x y;
+	x坐标和y坐标，可以使用方位名册或者精确单位。 
+	left center bottom right top 
+背景固定：背景附着。
+	设置背景图片是否固定或者随着页面的其余部分滚动。
+	background-attachment: scroll | fixed;
+	
+
+复合简写：
+	background: 背景颜色 背景图片地址 背景平铺 背景图像滚动 背景图片位置
+	
+背景色半透明：
+	background: rgba(0, 0, 0, 0.3);
+
+
+	

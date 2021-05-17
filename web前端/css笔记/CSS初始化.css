@@ -1,0 +1,79 @@
+为了消除不同浏览器对HTML文本呈现的差异，我们需要对CSS初始化。
+简单理解：CSS初始化指重设浏览器的样式。CSS reset。
+每个网页都首先进行CSS初始化。
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+em,
+i {
+	font-style: normal;
+}
+
+li {
+	list-style: none;
+}
+
+img {
+	border: 0;
+	vertical-align: middle;
+}
+
+button {
+	cursor: pointer;
+}
+
+a {
+	color: #666;
+	text-decoration: none;
+}
+a:hover {
+	color: red;
+}
+
+button,
+input {
+	font-family: Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB, "\5B8B\4F53", sans-serif;
+}
+
+body {
+/* 	抗锯齿 */
+	-webkit-font-smoothing: antialiased;
+	background-color: #fff;
+	font: 12px/1.5 Microsoft YaHei, Heiti SC, tahoma, arial, Hiragino Sans GB, "\5B8B\4F53", sans-serif;
+	color:#666;
+}
+
+.hide,
+.none {
+	display: none;
+}
+
+/* 清除浮动 */
+.clearfix:after {
+	visibility: hidden;
+	clear: both;
+	display: block;
+	content: "";
+	height: 0;
+}
+
+.clearfix {
+	*zoom: 1;
+}
+
+/* 或者 */
+.clearfix:before,.clearfix:after {
+	content:"",
+	display: table;
+} 
+.clearfix:after {
+	clear: both;
+}
+.clearfix {
+	*zoom: 1;
+}
+		

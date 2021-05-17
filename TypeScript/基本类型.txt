@@ -1,0 +1,63 @@
+Ts的基本类型：
+ 	let 变量：类型 = 值；
+ 	function fn_name(参数：类型，参数：类型)：类型 {
+ 		
+ 	}
+ 
+ 基本的类型如下：
+  	number   -   任意数字
+  	string   -   任意的字符串
+  	boolean  -   布尔值
+  	字面量
+  	any		 - 	 任意类型
+  	unknown		-	类型安全的any
+  	void 	-	空值 没有值（或者undefined）
+  	never 	-	没有值，不能是任何值
+  	object 	- 	任意的js对象{name: ‘孙悟空’}
+  	array 	- 	[1, 2, 3] 任意的js数组
+  	tuple 	- 	[4, 5]元组,TS新增类型,固定长度的数组
+  	enum 	- 	enum {A, B}枚举, TS中新增类型
+  	
+  也可以使用字面量进行类型声明:
+  let b: “nihao” | “women”;
+  b只能是”nihao”或者”women”,
+  let b: boolean | string;
+  b只能是布尔类型或者字符串类型.
+  
+  
+  any相当于关闭了类型检查.
+  
+  any和unknown的区别,  
+  let b: any;
+   b = 10;
+  let a = “hello”;
+  a = b;  这是不会报错误的.
+  
+  
+  let b:unknown;
+  b = “nihao”;
+  let a = “nihao”;
+  a = b;  报错了.
+  所以unknown是更加安全的any.
+  如果可以不报错,使用 a = b as string;或者<string>b;
+  或者if (typeof b == “string”) { a = b }
+ 
+  
+  void 和 never只要用在函数的返回值上.
+  function fn(): void {} 没有返回值.
+  never相当于rust语言里面的！，发散类型，永远不返回。
+  
+
+Let b: {name: string, [xx: string]: any};
+
+Let fn: (name: string) => number;
+
+Let a: string[];
+Let b: [number, string];
+
+Enum Hah {
+	male = 0,
+	female = 1,
+}  
+
+Type new type = string;

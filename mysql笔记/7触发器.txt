@@ -1,0 +1,18 @@
+create trigger 名字 事件  执行性代码
+事件:
+插入 insert
+删除 delete
+修改 update
+
+事件的时机,执行前和执行后,
+before insert
+before delete
+before update
+after insert
+after delete
+after update
+
+在哪一个表上的什么时机的什么动作的.
+
+create trigger jiaobanfei after update on table_name
+ for each row.

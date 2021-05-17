@@ -1,0 +1,1 @@
+https://github.com/seed-rs/seed-quickstart-webpack.git

@@ -1,0 +1,42 @@
+async-std的运行时原理是：
+当async_std::task::spawn()创建了好多的任务之后，
+运行时开始工作，当某个任务发生了返回Pending之后，
+async-std的运行时会偷任务来运行，但是，但是，那个
+返回Pending的任务永远不可能再被重新poll一遍了，一直卡在
+了那里。
+这是为什么呢？
+从blocking这个包包说起吧，首先run一下，如果返回了Pending，
+那么就会标记这个Future为！Running了，以后都不会在轮训到
+这个Future了。
+
+使用Future和运行时的正确姿势？
+
+如果我们要为我们自己的类型实现Future的话，一定要吧cx的waker给
+保存出来，这个就是以后叫醒这个Future的。
+
+struct Nihao {
+    age: i32,
+    waker: Option(Waker),
+}
+
+impl Future for Nihao {
+     type Output = i32;
+    fn poll(self: Pin<&mut self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
+        if self.age == 0 {
+            self.waker = cx.waker().clone();
+            return Pending
+         } else {
+           Ready(self.0)
+         }
+    }
+}
+
+fn main() {
+    let nihao = Arc::new(Mutex::new(Nihao{ age:0, waker: None }));
+    let nihao_arc = nihao.clone();
+    let h = async_std::task::spawn(nihao_arc);// 正在阻塞
+    nihao.waker.unwrap().wake(); // 通知它
+    
+    
+    
+}

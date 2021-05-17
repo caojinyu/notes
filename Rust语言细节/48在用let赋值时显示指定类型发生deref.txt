@@ -1,0 +1,5 @@
+let w = &Women { n: Nihao(100) };
+    let n: &Nihao = w;
+    println!("n: {:?}", n);
+
+在let的时候显示的指示类型，会发生deref。

@@ -1,0 +1,32 @@
+
+
+3、insert的使用细节：
+insert into tbl_name (字段列表) values (值列表)
+也可以是使用set方法：
+insert into tbl_name set n1='', n2='' ..;但是只能插入一条
+
+当主键或者唯一索引冲突的时候就更新，这个update后面没有set：
+insert into .. on duplicate key update t_name='',, c_name='';
+
+还可以使用select查询到的数据，进行插入。
+insert into tearch_class (t_name, c_name) select t_name, c_name from tearch_class;
+
+可以使用default函数,插入默认值.
+
+replace语法:
+遇到冲突的时候,可以replace into tearch values(...)
+就是替换了。非常像on duplicate key update ...
+
+
+load data infile： 针对select * from ... into outfile ..的。
+
+load data infile 'file' into tbl_name fields terminated by '' enclosed by ''
+ lines terminated by '' starting by '';
+
+
+
+
+
+
+
+

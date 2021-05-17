@@ -1,0 +1,12 @@
+*const T和&mut在函数参数中可以互相转化。
+fn n(n: *const T)  =====>  n(&n)
+fn n(n: &T) =======> n(*const T)
+
+&mut T可以传给是*mut T的参数类型的函数
+fn n(n: *mut T)   ======> n(&mut n)
+
+但是*mut T不能传递给是&mut T类型的函数
+fn n(&mut T)   =====> XXX  n(*mut T)  这是错误的。
+
+因为&mut T传递给是*mut T参数类型的函数，没有影响借用的规则。
+但是*mut T传递给是&mut T参数类型的函数，编译器不知道怎么处理借用规则了。

@@ -1,0 +1,98 @@
+flex布局体验
+	传统布局与flex布局
+	建议：
+		1： 如果是PC端页面，我们还是传统布局。
+		2：如果是移动端或者不考虑兼容性问题的pc端页面布局，我们还是使用flex弹性布局。
+	
+flex使用：
+	display: flex;
+	
+flex的布局原理：
+flexible Box，灵活的，任何一个容器都可以指定为flex布局。
+	1：当我们为父盒子设为flex布局之后，子元素的float、clear和vertical-align属性将失效。
+	2：伸缩布局 = 弹性布局 = 伸缩盒布局 = 弹性盒布局 = flex布局
+	
+	采用flex布局的元素，称为flex容器（flex container），简称为”容器“。它的所有子元素自动称为容器成员，称为flex项目（flex item），简称为”项目“。
+	
+	体验中div就是flex父容器。
+	体验中span就是自融资flex项目
+	子容器可以横向排列也可以纵向排列。
+	
+	总结flex布局原理：
+		通过给父盒子添加flex属性，来控制子盒子的位置和排列方式。
+
+flex常见父亲盒子属性：
+	flex-direction: 设置主轴的方向。
+	justify-content: 设置主轴上的子元素排列方式。
+	flex-wrap: 设置子元素是否换行。
+	align-content: 设置侧轴上的子元素的排列方式（多行）
+	align-items: 设置侧轴上的子元素排列方式（单行）
+	flex-flow: 复合属性，相当于同时设置了flex-direction和flex-wrap
+	
+主轴与侧轴 flex-direction
+	主轴（行、x轴）
+	侧轴（列、y轴）
+	默认的主轴方向就是x轴方向，水平向右
+	默认的侧轴方向就是y轴方向，垂直向下。
+	以上的周测和侧轴都是可以变化的，就看flex-direction设置谁为主轴。
+	flex-direction: row(从左向右) | row-reverse(从右向左) | column(从上到下) | column-reverse(从下向上);
+
+justify-content: 设置主轴上的子元素排列方式。
+	justify-content: flex-start | flex-end | center | space-around | space-between;
+	
+	flex-start:默认从头部开始，如果主轴是x轴，则从左到右
+	flex-end:从尾部开始排列
+	center:在主轴居中对齐
+	space-around:平分剩余空间
+	space-between:先两边贴边，再平分剩余空间（重要）
+
+flex-wrap: 设置子元素是否换行。
+	默认flex所有的子元素都是在一行上的，如果装不开，会自动的调整子元素的大小。
+	flex-wrap: nowrap;
+	flex-wrap: wrap;
+	
+align-content: 设置侧轴上的子元素的排列方式（多行），在单行下无效
+	flex-start:从上到下
+	flex-end:从下到上
+	center:挤在一起居中（垂直居中）
+	space-around: 平分剩余空间
+	space-between: 先分布在两头，再平分剩余空间
+	stretch: 高度平分父元素高度。
+	
+
+align-items: 设置侧轴上的子元素排列方式（单行）在子项为单行的时候使用。
+	flex-start: 从上到下
+	flex-end:从下到上
+	center:  挤在一起居中（垂直居中）
+	stretch: 拉伸（子盒子不要给高度，拉伸到和父盒子一样的高）。
+
+
+flex-flow: 复合属性，相当于同时设置了flex-direction和flex-wrap
+	flex-flow: column wrap;
+	
+	
+flex子项的属性：
+	flex子项占的份数
+	align-self控制子项目自己在侧轴的排列方式
+	order定义子项的排列顺序（前后顺序）
+	
+	flex: 定义子项目分配属于空间，用flex来表示占多少份数。
+	flex: <number>; // 默认是0
+	
+	align-self:控制单个子元素在侧轴的排列顺序，覆盖align-items。
+	order：number；数值越小越靠前。
+	
+	注意：
+		flex的后面是可以跟着百分比的。表示占用父亲盒子的百分比。
+		flex: 20%;
+
+背景颜色线性渐变：
+	background: linear-gradient(起始方向，颜色1，颜色2，…);
+	
+
+	
+	
+	
+	
+	
+	

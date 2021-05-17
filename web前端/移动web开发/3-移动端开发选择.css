@@ -1,0 +1,24 @@
+1：单独制作移动端页面（主流）
+2：响应式页面兼容移动端（其次）
+
+单独制作移动端页面
+	通过设备判断，自动选择。移动端网址域名前面加m(mobile)。
+	
+特殊样式的清除：
+/* 	CSS3盒子模型 */
+box-sizing: border-box;
+-webkit-box-sizing: border-box;
+
+/* 点击高亮我们需要清除，比如链接等，设置为transparent完成透明。 */
+-webkit-tap-highlight-color: transparent;
+
+/* 在移动端浏览器默认的外观在ios上加上这个属性才能给按钮和输入框自定义样式 */
+-webkit-appearance: none;
+
+/*  禁用长按页面时弹出的菜单 */
+img, a {
+	-webkit-touch-callout: none;
+}
+	
+
+

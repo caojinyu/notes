@@ -1,0 +1,32 @@
+在一个线程中，我们有一个结构体
+struct WomenNonNull{
+        name: NonNull<String>
+}
+unsafe impl Send for Women {}
+unsafe impl Sync for Women {}
+
+需要注意的是，我们仅仅是对WomenNonNull这个类型
+实现了Send和Sync，里面的成员NonNull类型并没有实现
+Send和Sync，所以在代码中：
+
+let w = Arc::new(WomenNonNull {
+      name: NonNull::new(Box::into_raw(Box::new("hades".to_string())))
+};
+let w_clone = w.clone();
+
+std::thread::spawn(move || {
+     let name: NonNull<String> = w_clone.name;
+// 这样是错误，编译器会提示NonNull没有实现Send和Sync的。
+})
+
+fn func_test(x: NonNull<String>) -> Box<String> {
+     Box::from_raw(x.as_ptr())
+}
+
+std::thread::spawn(move || {
+     let name: NonNull<String> = func_test(w_clone.name);
+// 跨越函数调用就正确了。
+})
+
+编译器认为w_clone这个类型满足了Send， 然后再去调用函数func_test，这样和
+当前的线程没有关系了。只需要去检查函数func_test()的限定检查了。

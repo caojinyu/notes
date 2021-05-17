@@ -1,0 +1,2 @@
+update发生的时机：
+update当Seed收到一个新Msg实例时，将调用它。

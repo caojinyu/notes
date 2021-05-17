@@ -1,0 +1,15 @@
+let values = vec![1, 2, 3];
+
+{
+    let result = match IntoIterator::into_iter(values) {
+        mut iter => loop {
+            match iter.next() {
+                Some(x) => { println!("{}", x); },
+                None => break,
+            }
+        },
+    };
+    result
+}
+
+for循环展开的迭代器的代码。

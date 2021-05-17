@@ -1,0 +1,9 @@
+[features]
+nihao = ["test_optinal2/test_optional"]
+
+test_optional可以是test_optinal2包中的一个可选的依赖,也可以是一个feature.
+
+当一个第三库重新导出一个crate例如web_sys,因为这个web_sys有feature。但是第三方库定制features不满足
+我们的需要，
+那么我们可以在我们的项目下，重新以来这个web_sys，并定制自己的features。注意自己定义的features和第三方的features是合并的关系，而且这种关系是不管web_sys的版本的，可以是不同的版本的。
+

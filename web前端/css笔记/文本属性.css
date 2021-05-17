@@ -1,0 +1,21 @@
+可以定义文本的外观、比如颜色、对其文本、装饰文本、文本锁进、行间距。
+
+1:文本颜色
+	color: red;
+	用预定的值，#ff0000，这种方式使用的最多。
+	rgb(255,255,255)
+	
+2:对齐文本（水平对齐方式）：
+	text-align: left|right|center;
+	
+3:装饰文本：添加下划线、删除线、上划线、
+	text-decoration: none|underline|overline|line-through;
+	
+4:文本缩进：段落的首行缩进
+	text-indent: number px|number em;
+	如果number是负数的话，向左边缩进。
+	em是相对于当前元素的1个文字的大小。
+	
+5: 行间距：（行高）
+	line-height: 26px;
+	行高包括文件的高度大小和上下的空隙宽度。

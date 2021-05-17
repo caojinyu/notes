@@ -1,0 +1,138 @@
+精灵图
+字体图标
+css三角
+css用户界面样式
+常见的布局技巧
+
+1：精灵图
+	为了有效的减少服务器接收和发送请求的次数，提高页面的加载速度，出现了css精灵技术（也称为css sprites， CSS雪碧）。
+	核心原理：将网页中的一些小的背景图像整合到一张大图中，这样服务器只需要请求一次就可以了。
+	（1）：精灵技术主要针对的是背景图片使用。
+	（2）：把许多小的图片整合到一张大图片中，这个图片就叫做精灵图。
+	（3）：移动背景图片的位置，利用background-position属性做到的。
+	（4）：移动的距离就是这个目标图片的x和y坐标，注意网页中的坐标有所不同的。
+	（5）：向上向左都是负值。
+	（6）：使用精灵图的时候需要精确测量，每个小背景图片的大小和位置。
+	
+2：字体图标的产生：主要用于显示网页中通用、常用的一些小图标
+	精灵图的缺点：
+		（1）：图片文件还是比较大的。
+		（2）：图片本身放大和缩小会失真。
+		（3）：精灵图的一部分的更换还是比较麻烦的。
+	字体图标iconfont，可以为前端工程师提供一种方便高效的图标使用方式，展示的是图标，本质属于字体。
+	字体图标可以变大表达，颜色等，不失真。
+	优点：
+		轻量级的：一个图标字体要比一系列的图像要小。一旦字体加载了，图标马上就会渲染出来，减少了服务器请求。
+		灵活性：本质是字体，可以很随意的改变颜色、产生阴影，透明效果、旋转等。
+		兼容性：很好。
+		注意：字体图标不能替换精灵技术，只是对图标部分技术的提升和优化。
+		总结：
+			（1）：遇到一些结构和样式比较简单的小图标，就用字体图标。
+			（2）：遇到一些结构和样式比较复杂的小图片，就用精灵图了。
+	1：字体图标下载
+	2：引入 把下载包里面的fonts文件夹放到页面根目录下。
+/* 			字体声明 */
+			@font-face {
+ 				 font-family: 'icomoon';
+ 				 src:  url('fonts/icomoon.eot?p4ssmb');
+ 				 src:  url('fonts/icomoon.eot?p4ssmb#iefix') format('embedded-opentype'),
+ 				   url('fonts/icomoon.ttf?p4ssmb') format('truetype'),
+ 				   url('fonts/icomoon.woff?p4ssmb') format('woff'),
+ 				   url('fonts/icomoon.svg?p4ssmb#icomoon') format('svg');
+ 				 font-weight: normal;
+ 				 font-style: normal;
+ 				 font-display: block;
+			}
+			
+/* 			使用字体 */
+			span {
+    			font-family: icomoon, serif;
+    			font-size: 200px;
+    			color: pink;
+			}
+			
+/* 			html中使用图标的标识 */
+			打开demo.html把图标的小框框负值过来，其实是一个数值，负值过来。
+			<span></span>
+
+	3：追加
+		找到下面字体包里面的selection.json重新上传，然后选中自己想要新的图标，重新下载压缩包，并替换原来的文件即可。
+	字体图标只需要服务器请求一次就可以了。
+
+3：CSS三角形：
+	原理，给一个没有大小(为0)的盒子添加边框，就是变成三角形了。
+	
+	.fixed-box1 {
+   		 margin: 50px auto;
+   		 width: 0;
+   		 height: 0;
+   		 border: 10px solid transparent;
+   		 border-left-color: pink;
+	}
+	
+4：CSS用户界面样式
+	（1）：更改用户鼠标(光标)样式 cursor
+		cursor:default（小白）|pointer(小手)|move（十字架形状） | text | not-allowed（禁止符号）
+	（2）：表单轮廓线 outline
+		outline:none;
+	（3）：防止表单域拖拽 resize
+		防止拖拽文本域： resize:none; 文本域最好写在一行。
+5： vertical-align属性应用
+	经常用于设置图片或者表单（行内块元素）和文字垂直对齐。
+	只针对行内元素或者行内块元素有效。块元素无效。
+	vertical-align: baseline(父元素基线对齐)|top（元素的顶端于行内中最高元素的顶端对齐）|middle（把此元素放在父元素的中部）|bottom（把元素的顶端于行中最低元素的顶端对齐）;
+	
+	文本域和旁边的文字也能使用这个属性。
+	<div> img<> </div> 
+	div {
+		border:1px solid red;
+	}
+	这个时候，图片的下面和边框有一个小白边。这是因为图片默认的是和文字的基线对齐的。
+	div img {
+    	vertical-align: bottom;
+	}
+	就会取消小白边了。
+	
+6：溢出的文字用省略号来显示
+	（1）：单行文本溢出省略号设置
+		先强制一行内显示文本：
+			white-space: nowrap;(默认normal自动换行)
+		然后设置超出部分隐藏
+			overflow:hidden;
+		文字用省略号替代超出的部分
+			text-overflow: ellipsis;
+	（2）：多行文字溢出省略号替代
+		有较大的兼容性，适合于webkit浏览器或移动端（移动端大部分是webkit内核）
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2; 第几行显示省略号。
+		-webkit-box-orient: vertical;
+		
+7：常见的布局技巧
+	（1）：margin的负值，合并边框， hover边框颜色改变添加position定位。
+	（2）：文字围绕浮动元素： 利用浮动。
+	（3）：行内块的妙用：
+	（4）：直角三角形：
+		.box1 {
+			width: 0;
+			height: 0;
+/* 			上面的宽度增大 */
+			border-top: 100px solid transparent;
+			border-right: 50px solid skyblue;
+/* 			左边和下面边框宽度设置为0 */
+			border-bottom: 0 solid blue;
+			border-left: 0 solid green;
+		}
+		另一种很好的方法：
+		.box1 {
+			width:0;
+			height: 0;
+			border-color: transparent red transparent transparent;
+			border-style: solid;
+/* 			100px表示的是三角形的高，50px表示三角形的宽 */
+			border-width: 100px 50px 0 0 ;
+		}
+
+
+	

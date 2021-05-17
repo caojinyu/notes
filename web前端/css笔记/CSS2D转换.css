@@ -1,0 +1,32 @@
+给一个盒子移动位置有：定位， 外边距， 转换。
+
+CSS转换（transform）可以简单的理解为变形：
+1： 移动： translate
+	transform: translate(x, y);
+	transform: translateX(x);
+	transform: translateY(y);
+	（1）translate最大的优点是不会影响其他元素的位置。
+	（2）translate中的百分比单位相对于自身宽度或者高度的百分比。
+	（3）对行内标签没有效果。
+2： 旋转：rotate
+	在二维平面进行顺时针或逆时针旋转。
+	transform: rotate(度数); // 45deg,正的是顺时针。
+	
+	设置转换的中心点：
+	tranform-origin: x y; // x y确定一个平面的点
+	（1）: 用空格隔开的
+	（2）：默认的是自己的50% 50%
+	（3）：可以给x y设置像素或者方位名词（top bottom left right center）。
+    
+3： 缩放：scale
+	transform: scale(x, y);
+	transform: scale(2, 2); //2倍
+	不会影响其他的盒子，是按照中点进行缩放的。也可以进行设置比如：
+	transform-origin: x y;
+
+
+上面的三个综合写法：
+	transform: translate() rotate() scale();
+	顺序的问题：先旋转会改变坐标轴的方向，一定要小心啦。
+	以后一定记住，要先写位移后写旋转。
+ 

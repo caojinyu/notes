@@ -1,0 +1,21 @@
+#[macro_export]
+macro_rules! 
+上面这样定义的宏，是可以在crate的任意模块的，但是这个宏永远都是在crate的根树的作用域中。
+
+在lib的中，要使用下面的方式，表示编译这个宏的模块。不需要使用pub mod。
+#[macro_use]
+mod macros;
+
+#[macro_use]
+mod integer128;
+
+
+
+#[proc_macro_derive(Serialize, attributes(serde))]
+这样定义的过程宏，在一个单独的crate中，
+如果在另外的一个crate中想要重新导出的话，使用：
+#[macro_use]
+extern crate serde_derive;
+pub use serde_derive::*;
+因为derive宏的trait和宏的名字是一样的，那么在use crate::name的时候，
+derive和trait一同的use进来了。

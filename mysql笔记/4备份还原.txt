@@ -1,0 +1,11 @@
+mysqldump命令:
+1、mysqldump -uroot -p test user > mybackup.sql  备份的是sql语句
+2、mysqldump -uroot -p database_name table_name > mysqlback.sql 
+3、mysqldump -uroot -p database_name table_name1 tables_name2 > mysqlback.sql
+一般我们在备份的时候，通常都是备份整个数据库 
+
+
+还原：
+将sql执行一遍：
+1、在mysql客户端执行：使用source指令：
+source **.sql

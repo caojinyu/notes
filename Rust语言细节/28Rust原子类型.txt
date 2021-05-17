@@ -1,0 +1,8 @@
+它的作用是将内存顺序的控制权交给开发者，我们可以自己定义底层的内存排序。下面我们一起来看一下这5种排序分别代表什么意思
+
+Relaxed：表示「没有顺序」，也就是开发者不会干预线程顺序，线程只进行原子操作
+Release：对于使用Release的store操作，在它之前所有使用Acquire的load操作都是可见的
+Acquire：对于使用Acquire的load操作，在它之前的所有使用Release的store操作也都是可见的
+AcqRel：它代表读时使用Acquire顺序的load操作，写时使用Release顺序的store操作
+SeqCst：使用了SeqCst的原子操作都必须先存储，再加载。
+一般情况下建议使用SeqCst，而不推荐使用Relaxed。

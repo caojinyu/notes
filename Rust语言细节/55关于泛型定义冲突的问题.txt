@@ -1,0 +1,25 @@
+impl From<StatusCode> for TideError {
+    fn from(status_code: StatusCode) -> Self {
+        TideError::new(HttpStatusCode::Ok, AppError::new(status_code))
+    }
+}
+
+impl From<AppError> for TideError{
+    fn from(e: AppError) -> Self {
+        TideError::new(HttpStatusCode::InternalServerError, e)
+    }
+}
+
+impl<E: Into<anyhow::Error>> From<E> for Error {
+    fn from(error: E) -> Self {
+        Self::new(StatusCode::InternalServerError, error)
+    }
+}
+
+如果StatusCode和AppError都实现std::error::Error了的话,那么将会和下面的泛型冲突了.
+
+如果StatusCode和AppError都是在当前的crate中定义的话,上面的代码是可以编译通过的,因为
+StatusCode和AppError受自己控制.
+
+
+但是如果StatusCode和AppError是在另外一个单独的crate中定义的话,立马会出现冲突的实现的.

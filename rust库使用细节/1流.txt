@@ -1,0 +1,6 @@
+stream是rust的异步逐条的获取,比如
+while let Some(s) = r.next().await {
+            println!("msg: {}", s);
+        };
+有一个问题,当r对应的sender被drop掉的时候, 返回的是none,退出了循环.
+s没有drop的话,那么一直阻塞在await.

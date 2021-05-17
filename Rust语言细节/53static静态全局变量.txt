@@ -1,0 +1,30 @@
+struct Women<T:Sync + Debug>(Cell<Option<T>>);
+
+impl<T: Sync + Debug> Debug for Women<T> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Women")
+            .field("cell", unsafe { &*self.0.as_ptr()})
+            .finish()
+    }
+}
+
+unsafe impl<T:Sync + Debug>  Sync for Women<T> {}
+
+//static mut NAME2: String = "hello world".to_string();
+static mut WAWA: Women<String> = Women(Cell::new(None));
+fn main() {
+    lazy_static! {
+        static ref NAME: String = String::from("hades");
+    }
+
+
+    unsafe {
+        *WAWA.0.get_mut() = Some(String::from("hades"));
+    }
+
+    println!("{:?}", unsafe { &WAWA });  // 这里不能使用WAWA，
+}
+
+说明了，static的全局变量是不能发生move操作，除非这个static实现了Copy。
+也就是说如果一个static的全局变量，比如static mut WAWA: Women<String> = Women(Cell::new(None));
+没有实现Copy，那么程序中是不能出现WAWA的，只能使用&WAWA的形式。

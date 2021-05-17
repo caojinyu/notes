@@ -1,0 +1,74 @@
+
+Pin<P<T>>
+
+
+struct Pin<P> {
+    pointer: P
+}
+是一个struct，将P所指向的T
+在内存中固定住，不能移动。说白了，就是不能通过safe代码拿到&mut T。
+
+Unpin:这是一个trait，如果一个T：Unpin，就说明T在pin之后可以安全的移动，
+实际就是可以拿到&mut T。
+
+pub auto trait Unpin {}
+
+!Unpin：就是pin.如果一个类型中包含了PhantomPinned，那么这个类型就是!Unpin.
+pub struct PhantomPinned;
+impl !Unpin for PhantomPinned {}
+
+Pin<P>的实现原理：
+重点是关注safe的new方法：
+impl<P: Deref<Target: Unpin>> Pin<P> 
+{    pub fn new(pointer: P) -> Pin<P> 
+    {        
+        unsafe { Pin::new_unchecked(pointer) }      
+    }
+}
+上面这个方法调用成功，实际上是Target并不会被Pin住。因为要求Deref<Target: Unpin>。
+通常创建一个不支持Unpin的T的pin实例的方法是用Box::pin。定义如下：
+pub fn pin(x: T) -> Pin<Box<T>> {
+    (box x).into()
+}
+
+例如，自定义了Node结构，如下的代码生成pin实例：
+let node_pined: Pin<Box<Node>> = Box::pin(Node::new());
+let movded_node_pined = node_pined;
+Node没有实现Unpin时，通过Pin的安全方法都不能得到&mut Node，所以就不能移动Node实例。注意，这里是不能移动Node实例，node_pined是Pin实例，是可以移动的。
+
+当然，通过Pin的unsafe方法，仍然可以得到mut Node，也可以移动Node实例，但这些unsafe的操作就需要程序员自己去承担风险。Pin相关方法中对此有很详细的说明。
+
+Pin可以被看作一个限制指针（Box<T>或&mut T）的结构，在T: Unpin的情况下，Pin<Box<T>>和Box<T>是类似的，通过DerefMut就可以直接得到&mut T，在T没有实现Unpin的情况下，Pin<Box<T>>只能通过Deref得到&T，就是说T被pin住了。
+
+接下来咱们说这个pub auto trait Unpin {}
+这是一个编译器自动照顾的类型，为所有的类型自动实现Unpin。
+例如：我的程序：
+pub struct Nihao<T> {
+    name: String,
+    _marker: PhantomData<T>
+}
+
+那么我们在doc总可以看到：
+impl<T> Unpin for Nihao<T> 
+where
+    T: Unpin, 
+{
+}
+既然是默认实现，那么Pin的意义在哪里呢？
+一句话，对于闭包，生成器，这些会自动生成匿名类型的东西，auto trait是不管你的，是不是为你默认实现一些trait的，当然了，这些匿名的类型，我们也无法手动实现一些trait。
+
+还有一种方法是我们可以强制的用!Unpin覆盖掉默认的实现。
+
+
+
+
+
+
+
+
+
+
+
+
+
+

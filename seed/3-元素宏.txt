@@ -1,0 +1,87 @@
+模板：
+div![
+    // 1. Classes
+    C!["a_class"],
+
+    // 2. DOM references
+    el_ref(element_reference),
+
+    // 3. Element keys
+    el_key(&element_key),
+
+    // 4. Style (aka CSS)
+    style!{St::Display => "flex"},
+
+    // 5. Other attributes
+    attrs!{At::Width => px(50)},
+
+    // 6. Text content (string, numbers, ..)
+    "Text",
+
+    // 7. Event handlers
+    ev(Ev::Click, |_| Msg::Clicked),
+
+    // 8. Children
+    h1!["Title"],
+    things.iter().map(view_thing),
+]
+
+特殊的元素宏：
+SVG：可扩展矢量图形
+
+svg![
+    rect![
+        attrs! {
+            At::Fill => card.bg_color,
+        },
+    ],
+    circle![
+        attrs! {
+            At::Stroke => card.fg_color,
+        },
+    ],
+]
+变成：
+<svg xmlns="http://www.w3.org/2000/svg">...</svg>
+
+plain！：
+用来创建text node， div!["hello"]会自动的创建text的node，
+但是plain！可以在div！的外面创建node。
+
+empty!:
+空的node。建议使用IF！： div![
+    IF!(menu.is_visible() => view_menu())
+]
+
+raw!:
+用来从文本中创建node。
+div![
+    raw!("<h1>Title</h1>"),
+    // Inline `content.html` during compilation.
+    raw!(include_str!("../content.html")),  
+]
+
+md!:
+用来解析markdown的字符串为node。
+
+nodes!:
+可以接受所有的实现IntoNodes trait的类型，返回Vec<Node<Msg>>.
+nodes![
+    md!["# Hello"],
+    h2!["world"],
+    vec![
+        div!["Do you like"],
+        div!["Seed?"]
+    ],
+]
+
+custom:
+用于集成自定义元素。
+custom![
+    Tag::from("code-block"),
+    attrs! {
+        At::from("lang") => lang,
+        At::from("code") => code,
+    }
+]
+

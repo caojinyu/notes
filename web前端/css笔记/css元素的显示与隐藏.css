@@ -1,0 +1,16 @@
+元素的显示与隐藏：
+	1：display
+	2：visibility
+	3：overflow
+	
+1：display属性 设置一个元素如何进行显示
+	display:none;隐藏了元素。被隐藏的元素不再占有原来的位置。
+	display:block;除了转换为块级元素之外，同时还有显示被隐藏的元素的意思。后面引用很广泛，配合js可以制作很多的游戏。
+	
+2：visibility属性 
+	visibility: inherit | visible | hidden | collapse(隐藏表格的行和列)
+	visibility: hidden;隐藏之后，被隐藏的元素继续占有原来的位置。这个和display有很大的不同。
+
+3：overflow属性 对溢出的部分进行显示和隐藏
+	指定了如果内容溢出一个元素的框（超过其指定的高度及宽度）时会发生什么。
+	overflow:visible(默认的)|auto(在需要的时候，才添加滚动条)|hidden|scroll(不管超过不超过都会添加滚动条);

@@ -1,0 +1,19 @@
+ let (s, r) = channel::<i32>();
+     let a = Box::pin(async {
+         //s.send(10).expect("error");
+         r.await.expect("error")
+     });
+     r.recv();
+     nihao2(a);
+
+上面的r参与了匿名生成器的生成，默认使用move，不管加不加async move。
+
+
+    let a = "nihao".to_string();
+    let b = || async { println!("a: {}", a) };
+
+    println!("a:{}", a);
+上面的a并没有参与匿名生成器的生成，只是一个闭包不会的变量，遵循闭包的规范。
+
+
+只要是在async {}里面带有.await的变量就是参与了generator的生成，就是move的。

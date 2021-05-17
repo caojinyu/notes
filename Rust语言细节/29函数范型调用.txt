@@ -1,0 +1,18 @@
+1、带有范型的函数的调用
+fn nihao<T>();
+
+调用的时候，nihao::<i32>();
+
+2、自定义的类型中带有范型的关联函数的调用。
+
+struct Nihao<T>{}
+
+impl Nihao {
+    fn hello();
+}
+
+这样调用： Nihao::<i32>::hello();
+
+3、同一个类型实现了多个具有相同方法的trait
+<Type as Trait>::func();  这样调用trait的方法
+<Type as Trait>::Output; 这样使用trait中的关联类型。

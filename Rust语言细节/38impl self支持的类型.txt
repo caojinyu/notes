@@ -1,0 +1,7 @@
+`self`, 
+`&self`, 
+`&mut self`, 
+`self: Box<Self>`, 
+`self: Rc<Self>`, 
+`self: Arc<Self>`, 
+`self: Pin<P>`(where P is one of the previous types except `Self`)

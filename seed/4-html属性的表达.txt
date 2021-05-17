@@ -1,0 +1,65 @@
+C!
+style!
+attrs!
+
+div![
+    C!["counter", IF!(selected => "active")],
+    style!{
+        St::Display => "flex",
+        St::Padding => px(10),
+    },
+    attrs!{At::Title => "A Title"},
+    "This is a counter.",
+]
+
+<div class="counter active" title="A Title" style="display:flex;padding:10px">
+    This is a counter.
+</div>
+
+C!: 是CSS的class。实现的ToClasses 这个trait的都以。
+
+style!: 是字节写css的代码的风格。
+属性名称： St::Display
+值： 可以是实现ToString的所有类型，也可以包装在Option中。
+let selected = true;
+let apply_custom = true;
+div![
+    style!{
+        St::Margin => px(50),
+        St::MaxWidth => unit!(50, %),
+        St::Top => 0,
+        St::Padding => px(20) + " " + &px(15)
+        St::BackgroundColor => if selected { "green" } else { "white" },
+        St::from("custom_name") => IF!(apply_custom => "a_value"),
+    }
+]   
+
+<div style="
+    margin:50px;
+    max-width:50%;
+    top:0;
+    padding:20px 15px;
+    background-color:green;
+    custom_name:a_value
+"></div>
+
+attrs!属性宏：
+属性名称： 如：At::TiTle
+值：可以是AtValue或者是实现ToString的所有值。值有三种方式：
+	Ignored： 忽略整个属性
+	None：不使用属性值。空字符串
+	Some(String)：如果v在中At::X => v，ToString则将其自动转换为		AtValue::Some(v)。
+注意： C！和style！基本只是attrs！宏的特例形式。如：
+attrs!{At::Class => "class_a", At::Style => "top:0"}
+
+as_at_value：
+let disabled = false;
+...
+attrs!{
+    At::Disabled => disabled.as_at_value()
+}替代：
+attrs!{
+    At::Disabled => if disabled { AtValue::None } else { AtValue::Ignored }
+}
+
+

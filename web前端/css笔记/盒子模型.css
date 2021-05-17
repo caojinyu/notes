@@ -1,0 +1,68 @@
+盒子模型：
+网页布局有：盒子模型、浮动、定位。
+盒子有：
+	border：边框
+	content 内容
+	padding：内边距
+	margin：外边距
+	
+border：
+	边框有三部分组成：边框的粗细，边框样式、边框颜色。
+	border: border-width | border-style | border-color;
+简写：
+	border: 1px solid red;
+边框是可以分开写的：
+	border-top: 1px solid red;
+	border-bottom: 1px solid red;
+	border-collapse: collapse; //合并相邻的边框
+边框会影响盒子的实际大小。增加的大小就是盒子的大小加上边框的宽度。
+
+padding：内边距
+	边框与内容之间的距离.
+	padding-top padding-bottom padding-left padding-right
+	padding: 5px;
+	padding: 5px 10px; 上下是5px，左右是10px。
+	padding: 5px 10px 20px; 上是5px，左右是10ox， 下是20px
+	padding: 2px 10px 20px 30px; 上右下左  顺时针
+	注意事项：
+		padding也会影响盒子的实际大小。增加了padding的px值.
+如果没有指定width不会撑大盒子。
+	
+margin:外边距 控制盒子与盒子之间的距离
+	margin-left margin-right margin-top margin-bottom
+	margin的简写形式和padding的是一致的。
+	margin的左右边距设置为auto就能实现盒子的居中。
+	注意：
+		对于两个嵌套关系的块元素，父元素有上外边距同时子元素也有上外边距，此时父元素会塌陷较大的外边距值。
+		解决的办法：
+			1：可以为父元素定义上边框。
+			2：可以为父元素定义上内边距。
+			3：可以为父元素添加overflow:hidden.
+			
+清除网页元素的内外边距：
+	* {
+		padding: 0px;
+		margin:0px;
+	}
+
+去掉li前面的项目符号：
+	list-style: none;
+
+圆角边框：
+	border-radius: 10px;
+	圆形的方法：
+	border-radius: 50%; 如果矩形是一个正方形，那么此时是一个圆形。
+	border-radius: 50px;如果是一个矩形，高度是100px，那么这个是一个两端	圆形的。
+	border-radius:10px 20px 30px 40px;
+	border-radius:10px 20px;对角线是10px 另一个是20px。
+	border-top-left-radius:10px;
+	
+盒子阴影：
+	box-shadow: h-shadow v-shadow blur(模糊度) spread(传播度) color inset|outset; 默认是outset，不可以写，如果要内阴影要添加上inset。
+	
+文字阴影：
+	text-shadow: h-shadow v-shadow blur color;
+	
+cutterman是ps的切图插件。
+	
+

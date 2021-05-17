@@ -1,0 +1,19 @@
+通过webpack创建:
+ 第一步创建 cargo new —lib 项目名
+ 第二步修改 cargo.toml文件
+ 第三步编写webpack.config.js文件
+ 第四步 package.json
+ 第五步运行 npm run serve
+ 
+ 
+ 一定要提前安装好wasm-pack可执行程序， 官方下载。
+ rustup target add wasm32-unknown-unknown
+ 
+ 
+ 简单的网上有模板：
+ npm init rust-webpack my-app
+ 
+ 
+ seed开发框架：
+ https://github.com/seed-rs/seed-quickstart-webpack.git
+

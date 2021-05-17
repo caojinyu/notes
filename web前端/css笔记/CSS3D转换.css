@@ -1,0 +1,39 @@
+主要是3D位移和3D旋转。
+3D位移： translate3d(x, y, z);
+3D旋转：rotate3d(x, y, z);
+透视：perspective
+3D呈现: transform-style
+
+
+1: translate3d
+	transform: translateX(100px);
+	transform: translateY(100px);
+	transform: translateZ(100px); 一般使用px
+	transform: translate3d(x, y, z);
+	
+	translateZ(8px):沿Z轴移动，一般px作单位，正的是向外走（我们的眼前）
+
+2： perpective透视
+	透视理解成让3D物体投影在2D平面内。
+	透视我们也称为视距，就是人的眼睛到屏幕的距离。
+	距离视觉点越近在电脑平面成像越大，越远成像越小。
+	透视的单位是像素。
+	注意：
+		透视写在被观察元素的父盒子上面。perspective: 500px;
+
+3：3D旋转：rotate3d(x, y, z)；
+	旋转的规则：左手规则。大拇指指向轴的正方向。
+	rotateX(), rotateY(), rotateY(), rotate3d(x, y, z, deg);
+	rotate3d(1, 0, 0, 45deg); // 绕x轴
+	rotate3d(0, 1, 0, 45deg); // y
+	rotate3d(0,0,1, 45deg); // z
+	rotate3d(1,1,0, 45deg); // 矢量旋转
+
+4：3D呈现transform-style
+	控制子元素是否开启3D空间。
+	transform-style: flat;子元素默认不开启3D空间。
+	transform-style:preserve-3d;子元素开启3d空间。
+	这个代码要写给父亲级别，影响的却是子盒子。
+	这个属性很重要。
+
+	

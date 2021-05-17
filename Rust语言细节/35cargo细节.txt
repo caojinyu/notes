@@ -1,0 +1,26 @@
+cargo中的dependencies中的optional = true
+的意思是说这个依赖是一个可选的依赖，用在features中。
+
+[dependencies.lazy_static]
+version = "*"
+optional = true
+
+[features]
+default = []
+std = ["lazy_static"]
+如果default是空的话，lazy_static将不会被依赖。如果default=["std"]，那么lazy_static将
+会被依赖了。
+features中的条目的依赖都要明确的用dependencies中列出来。
+
+使用features时需要遵循以下规则：
+1. feature名称在本描述文件中不能与出现的软件包名称冲突
+2. 除了default feature，其他所有的features均是可选的
+3. features不能相互循环包含
+4. 开发依赖包不能包含在内
+5. features组只能依赖于可选软件包
+6. feature可以依赖可选依赖软件包，也可以依赖其他的feature。
+
+features的一个重要用途就是，当开发者需要对软件包进行最终的发布时，
+在进行构建时可以声明暴露给终端用户的features，这可以通过下述命令实现：
+$ cargo build --release --features "shumway pdf"
+

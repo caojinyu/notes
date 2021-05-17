@@ -1,0 +1,18 @@
+CSS的引入方式：
+
+1: 行内样式表（行内式）
+	<p style="color:red;font-size: 20px;">
+		你好
+	</p>
+
+2: 内部样式表
+	<style>
+		p {
+			color: red;
+		}
+	</style>
+
+3:外部样式表：适合样式比较多的情况，使用最多
+	(1):编写.css文件。
+	(2): <link rel="stylesheet" href="css路径">
+

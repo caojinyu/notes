@@ -1,0 +1,50 @@
+1、union会自动的消除重复。可以通过all达到目的。 （select）union all （select ）
+外键：
+FOREIGN KEY(deptId) REFERENCES tb_dept1(id)
+
+
+子查询：
+where后：
+子语句要包裹在子括号内，子语句的order by只有在配合limit时，才生效。因为mysql会
+    对没有limit的子语句的时候自动优化。
+
+ 一列数据的，用运算符
+多列的数据，用in， not in， any（）， some（）， all（），
+注意any和some和all前面可以添加=，！=， >, <,等运算符。
+
+
+对于一行的数据使用()运算， 相当于元组的形式实现的。
+where (name, sex) = (select name, sex ... limit 1)
+
+
+from后面：
+返回多行多列的数据，叫做返回了一个表。用在from的后面。
+select .. from (select ..) ;
+但是from后面的必须是一个表，所以要对子select的结果进行起名，as tbl_name.
+
+
+exists形式：
+exists(select ...).如果子查询能返回数据，则认为exists返回真。
+
+连接：
+select .. from tbl1 inner join tbl2 on ..=.. ;
+
+select .. from tbl1 left out join tbl2 on ..=.. ;
+
+对于级联表的查询，使用连接查询要比使用子查询的效率更好。
+
+2、select可以将检索到的结果保存到文件内。
+
+select * into outfile "文件地址" from ...
+或者：
+select * from .. into outfile ;
+通过filelds：设置字段选项分隔符 默认tab
+通过lines：设置行选项分隔符  默认\n
+
+enclosed by '' escaped by '\\': 必须放在filds后面定义，这个是字段的定义。
+
+
+select * from .. into outfile fields terminated by ',' enclosed by '' escaped by '\\'  lines terminated by '\n' starting by ':' ;
+
+对于二进制的数据：使用 into dumpfile。不做转义和换行的处理。
+没有回车换行。只能返回一行数据。

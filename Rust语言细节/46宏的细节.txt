@@ -1,0 +1,30 @@
+macro_rules! cfg_unstable {
+    ($($item:item)*) => {
+        $(
+            #[cfg(feature = "unstable")]
+            #[cfg_attr(feature = "docs", doc(cfg(unstable)))]
+            $item
+        )*
+    }
+}
+关于重复时候的分隔符，
+如果不添加分隔符，编译器跟根据语法自己判断。
+
+分割符号尽量不能使用";"这个符号。因为rust的一些语句比如pub mod nihao;会自动的把
+";"当做一部分，这时就会宏就找不到分隔符了。
+如果非要使用";"，可以这样写pub mod nihao;;
+
+item，语言项，比如模块、声明、函数定义、类型定义、结构体定义、impl实现等。
+block，代码块，由花括号限定的代码；
+stmt，语句，一般是指以分号结尾的代码；
+expr，表达式，会生成具体的值；
+pat，模式；
+ty，类型；
+ident，标识符；
+path，路径，比如foo、std::iter等；
+meta，元信息，包含在#[...]或者#![...]属性内的信息；
+tt，TokenTree的缩写，词条树；
+vis，可见性，比如pub；
+lifetime，生命周期参数
+
+

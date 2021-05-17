@@ -1,0 +1,58 @@
+#[wasm_bindgen(start)]
+pub fn start() {
+    // Mount the `app` to the element with the `id` "app".
+    App::start("app", init, update, view);
+}
+
+start当浏览器加载Rust代码时会调用，他的主要目的是启动应用程序。
+
+wasm_bindgen: 是Rust和js之间的桥梁。带有wasm_bindgen的函数都可以从js调用。wasm_bindgen标记的函数还可以有返回值，返回值必须是实现FromWasmAbi这个trait的类型，例如：Box<[JsValue]>. start必须是pub。
+
+如何调用start：
+start加载WASM模块时调用。加载代码：
+<script type="module">
+    import init from '/pkg/package.js';
+    init('/pkg/package_bg.wasm');
+</script>
+pkg文件夹及其内容是由wasm-pack生成。
+
+App::start("app", init, update, view);
+1:最终启动我们的Seed应用程序：
+2:它将应用程序安装到所选的根元素中。做一些底层的应用程序初始化-设置侦听器，加载用于路由的基本路径，启用对控制台的紧急记录等。
+3:调用您的init函数。
+4:首次渲染应用。
+5:返回App实例。
+
+App::start第一个参数是我们的根元素：它可以是实现GetElement这个trait的所有类型。
+1: 字符串表示是一个元素的id。
+2: web_sys::Element
+3: web_sys::HtmlElement
+
+#[wasm_bindgen(start)]
+pub fn start() {
+    // You have to enable panic messages forwarding
+    // to console log. The same line is also in `App::start`,
+    // but it's too late for the `.expect` below.
+    //
+    // _Note:_ For Seed <= 0.7.0, you have to add `console_error_panic_hook`
+    // into dependencies in your `Cargo.toml` or use this commit:
+    // `seed = { git = "https://github.com/seed-rs/seed", rev = "0a538f0" }`
+    console_error_panic_hook::set_once();
+
+    let root_element = document()
+        .get_elements_by_tag_name("section")
+        .item(0)
+        .expect("`section` as a root element");
+
+    App::start(root_element, init, update, view);
+}
+上面的例子把找到的第一个section的标签作为我们的根元素了，我们app应用程序后面的渲染都在这个根元素中了。我们一般不建议把body标签作为app的根元素。
+
+写好start：
+1:在大多数情况下，它是单线的。
+2:如果调用上方有一些代码，请不要忘记console_error_panic_hook::set_once();在start主体顶部添加App::start(..)。
+
+带有start的Model是不会发生Drop的，但是其他的没有用start启动的子Model在离开页面的时候是会发生drop的。
+
+
+

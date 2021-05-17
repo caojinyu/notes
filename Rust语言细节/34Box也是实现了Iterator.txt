@@ -1,0 +1,16 @@
+Vec并没有实现了Iterator， 但是实现了IntoIterator， IntoIterator函数into_iter（）的
+返回类型实现了Iterator。
+
+Box<T>实现了Iterator， T也必须实现了Iterator。
+
+所以：
+fn main() {
+    let mut b = Box::new(vec![1, 2, 3, 4].into_iter());
+
+    for a in &mut b {}
+}
+
+
+for后面是引用还是所有权的形式，取决于IntoIterator的实现。
+注意因为IntoIterator默认实现返回自身。
+又是因为next要求是&mut self,所以for box的时候或者是所有权移动或者是&mut 的形式。

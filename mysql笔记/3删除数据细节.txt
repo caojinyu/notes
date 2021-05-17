@@ -1,0 +1,24 @@
+
+delete from table:
+删除的时候可以使用limit n：表示指明要删除的数量。
+常见的是limit 配合 oder by来使用。先排序，再删除固定数量。
+
+允许使用join连接删除，同时删除多个表内的数据。
+delete from one, two using one join two on one.public_field=two.public_field where one_id = 2;
+删除的时候，达到了使用了外键的技术的效果。
+
+
+truncate：清空表，并且把auto_increment复位
+重建了表结构。速度快。
+
+update支持limit， order by。也支持多表同时更新。
+update one join two on one.public_field=two.public_field set 
+    one.date='', two.date = '' where one_id = '';
+
+
+
+
+
+
+
+

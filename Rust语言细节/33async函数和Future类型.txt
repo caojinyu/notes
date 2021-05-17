@@ -1,0 +1,19 @@
+async fn nihao(n： i32) -> i32 {
+}
+
+这个函数是一个异步的函数，是可以接受参数的，然后生成一个Future<Output=i32>的类型。
+
+fn nihao(n: i32) -> impl Future<Output = i32> {
+}
+异步函数其实就是生成一个Future类型。这个实现了的Future的类型就是generator类型。
+
+generator类型实现了Future trait，这个是编译器自己形成的，不需要我们手动实现。
+
+fn nihao(n: i32) -> Task {}
+
+impl Future for Task {} 
+这是我们自定义的实现Future的类型，手动实现poll等各种函数。
+
+注意： async {}, async move {},  async fn() {}, || async move{}, async move || {}
+都是编译器自动实现了生成了一个generator，并实现了Future 这个trait。而且只要{}内部的代码有r.await
+的形式，r这个变量因为参与了generator的生成，不管你加不加move默认必须是move所有权的形式。

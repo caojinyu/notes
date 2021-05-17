@@ -1,0 +1,43 @@
+ev:
+1: Msg
+	ev(Ev::Click, |_| Msg::Clicked),
+	ev(Ev::from("data-loaded"), Msg::DataLoaded`) 
+2:Option<Msg>
+	ev(Event::Click, |_| Some(Msg::Clicked))
+3:()
+	ev(Ev::Click, |event| log!("Clicked!", event)),
+	ev(Ev::Click, |event| {
+    	event.prevent_default();
+    	event.stop_propagation();
+	})
+
+有许多特殊的事件类型，例如MouseEvent和KeyboardEvent,我们能在ev回调中收到，
+但是我们需要讲Event转为具体的事件子类型，
+ev(Ev::Click, |event| {
+    let mouse_event: web_sys::MouseEvent = event.unchecked_into();
+    log!(mouse_event.ctrl_key());
+}),
+ev(Ev::Click, |event| {
+    IF!(event.unchecked_into::<web_sys::MouseEvent>().shift_key() => Msg::Increment)
+})
+
+为了消除强制转换引入的容易出错的样板，有一些ev相关的函数可以在调用回调之前强制转换事件：
+keyboard_ev强制转换Event为KeyboardEvent
+mouse_ev=> MouseEvent
+touch_ev=> TouchEvent
+drag_ev=> DragEvent
+pointer_ev=> PointerEvent
+
+有一个例外：input_ev。它不会Event转换为InputEvent，它会尝试直接从元素中获取值，因为在大多数情况下，您只想知道更改后的值并且InputEvent由于某些原因不包含该值。
+
+input![
+    attrs! {
+        At::Value => model.email
+    },
+    input_ev(Ev::Input, Msg::EmailChanged)
+],
+
+
+
+注意注意：
+利用消息的机制，会导致不停的重新刷新显示的，为了不导致重新刷新的话，最好使用js动态的机制。

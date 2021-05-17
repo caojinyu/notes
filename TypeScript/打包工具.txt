@@ -1,0 +1,55 @@
+打包的工具使用如下：
+
+npm i -D webpack webpack-cli typescript ts-loader
+
+建立一个webpack配置文件，webpack.config.js文件
+
+// 引入一个包
+const path = require('path'); //拼接路径
+
+const HTMLWebpackPlugin = require("html-webpack-plugin");
+
+
+// webpack中的所有的配置信息，都应该写在module.exports里面
+module.exports = {
+    // 指定入口文件
+    entry: "./src/index.ts",
+    
+    // 指定打包文件所在的目录
+    output: {
+        // 打包后的目录
+        path: path.resolve(__dirname, "dist"),
+        // 打包后文件的名字
+        filename: "bundle.js"
+    },
+    
+    // 指定webpack打包时要使用的模块
+    module: {
+        // 指定loader的规则，加载规则
+        rules: [
+            {
+                // test指定的时规则生效的文件
+                test: /\.ts$/,
+                // 要使用的loader，针对test的规则
+                use: "ts-loader",
+
+                // 要排除的文件
+                exclude: /node_modules/
+            }
+        ]
+    },
+    
+    plugins: [
+        new HTMLWebpackPlugin({
+            title: "这是一个自定义的title"
+        }),
+    ]
+}
+
+npm i -D webpack-dev-server
+npm i -D clean-webpack-plugin 
+npm i -D html-webpack-plugin 
+npm install -D less less-loader css-loader style-loader
+
+版本兼容
+npm install -D @babel/core @babel/preset-env babel-loader core-js 

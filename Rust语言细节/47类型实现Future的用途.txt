@@ -1,0 +1,111 @@
+一句话：一个类型实现Future是用来开发异步的运行时的。
+一旦我们有了运行时，我们利用这样的办法和运行时通信：
+就是waker这个类型。在poll（）函数中，把cx.waker().clone()
+给传递出来，或者保存在self中。
+这里的wake（）函数就是唤醒运行时的功能。 
+
+truct Test {
+    inner: Mutex<Inner>,
+}
+struct Inner{
+    name: String,
+    waker: Option<Waker>,
+}
+
+impl Future for Test {
+    type Output = String;
+
+    fn poll(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
+        println!("poll!");
+
+        let mut this = self.inner.lock().unwrap();
+        println!("after lock!");
+        if this.name == "task_id_3" {
+            println!("task_id_3:阻塞");
+            this.name = String::from("change task_id_3");
+            this.waker = Some(cx.waker().clone());
+            println!("return before!");
+            drop(this);
+            return Poll::Pending;
+        }
+
+        return Poll::Ready(this.name.clone())
+    }
+}
+
+struct Task {
+        name: NonNull<Test>
+    }
+
+    unsafe impl Send for Task{}
+    unsafe impl Sync for Task {}
+
+用NonNull包裹一下，为了让多线程之间共享这个变量。
+async_std::task::block_on(async move {
+    let task = Arc::new(Task {name: NonNull::new(
+        Box::into_raw(Box::new(
+            Test{
+                inner: Mutex::new(Inner {
+                    name: format!("task_id_{}", 3),
+                    waker: None
+                })
+            }
+        ))
+
+    ).unwrap()}
+        );
+
+        let mut task_clone = task.clone();
+
+        let h = async_std::task::spawn(async move {
+            println!("task");
+            let test = unsafe {
+                std::mem::transmute::<*mut Test, &mut Test>(task_clone.name.as_ptr())
+            };// 返回了一个&mut Test类型，这样的类型是可以调用await的。
+
+            test.await
+
+        });
+
+    async_std::task::sleep(std::time::Duration::from_secs(3)).await;
+    {
+        println!("main lock!");
+        let a = task.name;
+        let a = unsafe {
+            std::mem::transmute::<NonNull<Test>, &Test>(a)
+        };
+
+        let mut lock = a.inner.lock().unwrap();
+        if let Some(w) = lock.waker.take(){
+            println!("get lock!");
+            w.wake();
+        }
+        println!("main after lock!");
+    }
+
+    // async_std::task::sleep(std::time::Duration::from_secs(2)).await;
+    // let t = t.inner.lock().unwrap();
+    // println!("t:{}", t.name);
+    // drop(t);
+
+
+    println!("ret:a: {}", h.await);
+
+
+    {
+        let test = unsafe {
+            Box::from_raw(task.name.as_ptr()) // 释放内存
+        };
+
+        let mut t = test.inner.lock().unwrap();
+        println!("t2:{}", t.name);
+    }
+
+});
+
+
+
+同步阻塞线程的函数怎么转变成异步函数呢？
+其实就是让阻塞线程的函数不要阻塞当前运行时的线程，另外开辟了
+一个线程池子，用来运行阻塞的代码。例如blocking包里面unblock（）
+函数就是把一些阻塞的函数放进去，在一个单独的线程池中来运行了。

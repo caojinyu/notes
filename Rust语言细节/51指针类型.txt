@@ -1,0 +1,20 @@
+NonNull： 不能Send ，Sync,  实现了Clone和Copy。
+Unique<T>: 可以Send，Sync,
+ManauDrop<T>：手动释放, 实现了Copy和Clone。
+*mut T的drop_in_place方法，调用指针指向的内存的drop方法。
+
+
+对于*const ，*mut ， &， 实现了Clone和Copy
+但是&mut是没有实现Copy和Clone的。
+
+虽然*mut, *const T实现了Copy,Clone,但是记住,Send,Sync没有实现,
+所以在不能跨越线程,调用线程函数的时候,会首先检查Send和Sync约束,
+然后才是考虑的move还是copy.
+
+
+*T和*mut T是没有实现Send和Sync的。
+
+Unpin：在一个对象被Pin之后可以安全的移动时，必须要实现Unpin。&T， &mut T， *const T， *mut T是实现
+了Unpin的。
+
+
