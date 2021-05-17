@@ -1,3 +1,6 @@
+取消git的http代理，容易出现问题：
+git config --global --unset http.proxy
+
 使用本地库和远程关联：
 git remote add origin http://…….
 git push -u origin master
